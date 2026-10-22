@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>APIcalypse | Defense Mesh Command Matrix</title>
+    <!-- Importing a clean, highly readable sci-fi tech font -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030508;
+            --panel-bg: #090e14;
+            --border-color: #21262d;
+            --border-glow: #ff555544;
+            --text-main: #e6edf3;
+            --accent-blue: #79c0ff;
+            --accent-green: #56d364;
+            --accent-red: #ff7b72;
+            --accent-orange: #ffa657;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Share Tech Mono', monospace, sans-serif;
+            padding: 20px;
+            max-width: 950px;
+            margin: auto;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 12px rgba(255, 123, 114, 0.4);
+            font-size: 1.8rem;
+            border-bottom: 2px solid #21262d;
+            padding-bottom: 10px;
+        }
+
+        p {
+            color: #8b949e;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .box {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255, 85, 85, 0.02);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #c9d1d9;
+            font-size: 0.95rem;
+        }
+
+        input, button {
+            background: #010409;
+            color: var(--accent-blue);
+            border: 1px solid #30363d;
+            padding: 12px;
+            margin: 8px 0;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        input:focus {
+            border-color: var(--accent-red);
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 123, 114, 0.3);
+        }
+
+        button {
+            background: #1b4721;
+            color: #ffffff;
+            border: 1px solid #2ea043;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: #238636;
+            box-shadow: 0 0 10px rgba(46, 160, 67, 0.5);
+        }
+
+        .btn-ledger {
+            background: #1f3864 !important;
+            border-color: #388bfd !important;
+        }
+        .btn-ledger:hover {
+            background: #1f6feb !important;
+            box-shadow: 0 0 10px rgba(56, 139, 253, 0.5) !important;
+        }
+
+        .error { color: var(--accent-red); font-weight: bold; text-shadow: 0 0 8px rgba(255,123,114,0.4); }
+        .success { color: var(--accent-green); font-weight: bold; text-shadow: 0 0 8px rgba(86,211,100,0.4); }
+
+        pre {
+            background: #010409;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: #79c0ff;
+            border: 1px solid #21262d;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .metrics-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .metric-badge {
+            background: #010409;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #30363d;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            color: var(--accent-orange);
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 166, 87, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>☣️ APIcalypse: Defense Mesh Command Matrix</h1>
+    <p>Secure Telemetry Ingestion, AI Tactical Proxy, & Resource Ledger</p>
+
+    <div class="grid">
+        <!-- Control Panel -->
+        <div class="box">
+            <h3 style="color: #58a6ff; margin-top: 0;">🛡️ Terminal Controls</h3>
+            <label>Bunker Auth Key (`x-bunker-key`):</label>
+            <input type="password" id="authKey" value="bunker-secret-999">
+            
+            <label>Target Sector (City):</label>
+            <input type="text" id="sectorInput" value="Mumbai">
+            
+            <button onclick="executeDefenseMesh()">RUN DEFENSE PROTOCOL</button>
+            <button onclick="fetchInventory()" class="btn-ledger">SYNC INVENTORY LEDGER</button>
+        </div>
+
+        <!-- Live Status Metrics -->
+        <div class="box">
+            <h3 style="color: #58a6ff; margin-top: 0;">📊 Live Sector Metrics</h3>
+            <div id="statusOutput" class="success" style="font-size: 0.95rem; margin-bottom: 10px;">Status: Systems Standby...</div>
+            
+            <div class="metrics-container">
+                <div class="metric-badge">
+                    <div class="metric-label">Surface Temp</div>
+                    <div id="metricTemp" class="metric-value">--°C</div>
+                </div>
+                <div class="metric-badge">
+                    <div class="metric-label">Fallout Wind</div>
+                    <div id="metricWind" class="metric-value">-- km/h</div>
+                </div>
+                <div class="metric-badge">
+                    <div class="metric-label">Water Rations</div>
+                    <div id="metricWater" class="metric-value">-- L</div>
+                </div>
+                <div class="metric-badge">
+                    <div class="metric-label">Power Cells</div>
+                    <div id="metricPower" class="metric-value">--%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Output Terminal -->
+    <div class="box full-width">
+        <h3 style="color: #58a6ff; margin-top: 0;">💻 Secure Stream Terminal Output</h3>
+        <pre id="jsonOutput">{ "system_status": "Awaiting execution command..." }</pre>
+    </div>
+
+<script>
+async function executeDefenseMesh() {
+    const key = document.getElementById('authKey').value;
+    const city = document.getElementById('sectorInput').value;
+    const statusEl = document.getElementById('statusOutput');
+    const jsonEl = document.getElementById('jsonOutput');
+
+    statusEl.innerHTML = "Status: Ingesting Telemetry & Querying AI Command...";
+    statusEl.className = "";
+
+    try {
+        // 1. Fetch Telemetry (Service 1)
+        const telemetryRes = await fetch(`http://localhost:3000/api/v1/telemetry?city=${encodeURIComponent(city)}`);
+        const telemetryData = await telemetryRes.json();
+        if (!telemetryRes.ok) throw new Error(telemetryData.error);
+
+        // Update UI Badges
+        document.getElementById('metricTemp').innerText = telemetryData.hazard_level_temp + "°C";
+        document.getElementById('metricWind').innerText = telemetryData.wind_velocity + " km/h";
+
+        // 2. Fetch AI Defense Directive (Service 2)
+        const aiRes = await fetch('http://localhost:3000/api/v1/defense/directive', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-bunker-key': key },
+            body: JSON.stringify({
+                sector: telemetryData.sector,
+                hazard_temp: telemetryData.hazard_level_temp,
+                wind_speed: telemetryData.wind_velocity
+            })
+        });
+        const aiData = await aiRes.json();
+        if (!aiRes.ok) throw new Error(aiData.error);
+
+        // 3. Update Inventory Ledger automatically on execution (Service 3 - PUT)
+        const invRes = await fetch('http://localhost:3000/api/v1/inventory', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-bunker-key': key },
+            body: JSON.stringify({ water_delta: -50, power_delta: 85 })
+        });
+        const invData = await invRes.json();
+
+        // Update Inventory Badges
+        document.getElementById('metricWater').innerText = invData.inventory.water_rations_liters + " L";
+        document.getElementById('metricPower').innerText = invData.inventory.power_cells_pct + "%";
+
+        statusEl.innerHTML = "Status: Protocol Executed & Ledger Updated Successfully!";
+        statusEl.className = "success";
+        
+        jsonEl.innerHTML = JSON.stringify({
+            service_1_telemetry: telemetryData,
+            service_2_ai_command: aiData,
+            service_3_inventory_ledger: invData
+        }, null, 2);
+
+    } catch (err) {
+        statusEl.innerHTML = `Error: ${err.message}`;
+        statusEl.className = "error";
+        jsonEl.innerHTML = JSON.stringify({ error: err.message }, null, 2);
+    }
+}
+
+async function fetchInventory() {
+    try {
+        const res = await fetch('http://localhost:3000/api/v1/inventory');
+        const data = await res.json();
+        document.getElementById('metricWater').innerText = data.inventory.water_rations_liters + " L";
+        document.getElementById('metricPower').innerText = data.inventory.power_cells_pct + "%";
+        document.getElementById('jsonOutput').innerHTML = JSON.stringify(data, null, 2);
+        document.getElementById('statusOutput').innerHTML = "Status: Ledger Synchronized.";
+        document.getElementById('statusOutput').className = "success";
+    } catch (err) {
+        console.error(err);
+    }
+}
+</script>
+
+</body>
+</html>
